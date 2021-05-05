@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import '../index.css'
+import FormErrors from './FormErrors';
 
 class Form extends Component {
     constructor (props) {
@@ -21,12 +22,12 @@ class Form extends Component {
 
         switch(fieldName) {
             case 'email':
-                emailValid: value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
+                emailValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
                 fieldValidationErrors.email = emailValid ? '' : ' is invalid';
                 break;
 
             case 'password':
-                passwordValid: value.match(value.length >= 6);
+                passwordValid = value.length >= 6;
                 fieldValidationErrors.password = passwordValid ? '' : ' is too short';
                 break;
 
@@ -43,10 +44,14 @@ class Form extends Component {
         this.setState({formValid: this.state.emailValid && this.state.passwordValid});
     }
 
+    errorClass(error) {
+        return (error.length === 0? '' : 'has-error');
+    }
+
     handleUserInput(e) {
-        let name = e.target.name;
-        let value = e.target.value;
-        this.setState({[name]: value}, () => { this.validateField(name, value)});
+        const name = e.target.name;
+        const value = e.target.value;
+        this.setState({[name]: value}, () => { this.validateField(name, value) });
     }
 
     render() {
@@ -54,10 +59,11 @@ class Form extends Component {
             <div>
                 <form className="signinForm">
                     <h2>Sign up</h2>
-                    <div className="form-group">
+                    <div className={`form-group ${this.errorClass(this.state.formErrors.email)}`}>
                         <label htmlFor="email">Email address</label>
                         <input 
                             type="email" 
+                            required
                             className="form-control" 
                             placeholder="enter email" 
                             name="email" 
@@ -65,7 +71,10 @@ class Form extends Component {
                             onChange={(event) => this.handleUserInput(event)}
                         />
                     </div>
-                    <div className="form-group">
+                    <div className="panel panel-default">
+                        <FormErrors formErrors={this.state.formErrors} />
+                    </div>
+                    <div className={`form-group ${this.errorClass(this.state.formErrors.password)}`}>
                         <label htmlFor="password">Password</label>
                         <input 
                             type="password" 
@@ -76,7 +85,10 @@ class Form extends Component {
                             onChange={(event) => this.handleUserInput(event)}
                         />
                     </div>
-                    <button type="submit" className="submit-button"> Sign up </button>
+                    <div className="panel panel-default">
+                        <FormErrors formErrors={this.state.formErrors} />
+                    </div>
+                    <button type="submit" className="btn btn-primary" disabled={!this.state.formValid}> Sign up </button>
                 </form>
             </div>
         )

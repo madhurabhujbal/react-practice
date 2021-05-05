@@ -14,3 +14,13 @@ img .logo {
   background-color: #ff333c;
   font-weight: bolder;
 }
+
+.signinForm {
+  width: 500px;
+  margin: auto;
+  padding: 100px;
+} 
+
+.has-error {
+  outline: red;
+}
