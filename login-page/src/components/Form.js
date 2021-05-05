@@ -59,6 +59,9 @@ class Form extends Component {
             <div>
                 <form className="signinForm">
                     <h2>Sign up</h2>
+                    <div className="panel panel-default">
+                        <FormErrors formErrors={this.state.formErrors} />
+                    </div>
                     <div className={`form-group ${this.errorClass(this.state.formErrors.email)}`}>
                         <label htmlFor="email">Email address</label>
                         <input 
@@ -71,9 +74,6 @@ class Form extends Component {
                             onChange={(event) => this.handleUserInput(event)}
                         />
                     </div>
-                    <div className="panel panel-default">
-                        <FormErrors formErrors={this.state.formErrors} />
-                    </div>
                     <div className={`form-group ${this.errorClass(this.state.formErrors.password)}`}>
                         <label htmlFor="password">Password</label>
                         <input 
@@ -84,9 +84,6 @@ class Form extends Component {
                             value={this.state.password}
                             onChange={(event) => this.handleUserInput(event)}
                         />
-                    </div>
-                    <div className="panel panel-default">
-                        <FormErrors formErrors={this.state.formErrors} />
                     </div>
                     <button type="submit" className="btn btn-primary" disabled={!this.state.formValid}> Sign up </button>
                 </form>
